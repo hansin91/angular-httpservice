@@ -5,7 +5,7 @@ import { NotFoundError } from '../../common/not-found-error';
 import { BadInput } from '../../common/bad-input';
 
 @Component({
-	selector: 'post',
+	selector: 'app-post',
 	templateUrl: './post.component.html',
 	styleUrls: [ './post.component.css' ]
 })
@@ -19,7 +19,7 @@ export class PostComponent implements OnInit {
 	}
 
 	createPost(title: HTMLInputElement) {
-		let post = { title: title.value };
+		const post = { title: title.value };
 		this.posts.splice(0, 0, post);
 		title.value = '';
 		this.service.create(post).subscribe(
@@ -30,7 +30,6 @@ export class PostComponent implements OnInit {
 				this.posts.splice(0, 1);
 
 				if (error instanceof BadInput) {
-					//this.form.setErrors(error.originalError);
 				} else throw error;
 			}
 		);
@@ -43,7 +42,7 @@ export class PostComponent implements OnInit {
 	}
 
 	deletePost(post) {
-		let index = this.posts.indexOf(post);
+		const index = this.posts.indexOf(post);
 		this.posts.splice(index, 1);
 		this.service.delete(post.id).subscribe(null, (error: AppError) => {
 			this.posts.splice(index, 0, post);
